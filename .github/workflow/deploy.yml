@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+# 1. Trigger the workflow only on pushes to the main branch
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html' # CRITICAL: This ensures it only triggers if index.html changes
+
+# 2. Grant permissions required for GitHub Pages deployments
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 3. Prevent parallel deployments from conflicting with one another
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # Step A: Check out your repository code into the runner container
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step B: Set up the GitHub Pages environment routing
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Step C: Package the current folder workspace as a website artifact
+      - name: Upload Web Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Uploads the root directory containing your index.html
+
+      # Step D: Deploy the uploaded web artifact directly to GitHub Pages live servers
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
