@@ -4,13 +4,13 @@ An automated CI/CD (Continuous Integration/Continuous Deployment) pipeline built
 
 ## Architecture & Automation Pipeline
 
-[Image of GitHub Actions CI/CD deployment pipeline workflow showing code push, path filtering, artifact creation, and GitHub Pages deployment steps]
-
 The deployment execution pipeline follows a strict, event-driven lifecycle:
 1. **Event Interception (Path Filtering):** A developer pushes code to the `main` branch. GitHub's webhook manager parses the commit file manifest.
 2. **Conditional Evaluation:** If changes are detected inside `index.html`, the workflow proceeds. If changes only affect documentation (like this README), the runner bypasses execution to conserve action minutes.
 3. **Environment Provisioning:** GitHub spins up an isolated virtual machine container running the latest stable release of Ubuntu Linux.
 4. **Artifact Compilation:** The workspace repository code is cloned securely into the container, bundled into a compressed deployment artifact, and shipped to the GitHub Pages production server engine.
+
+Link: https://amal-krishna123.github.io/github-page-deployment/
 
 ## Repository File Tree
 
@@ -22,4 +22,3 @@ gh-deployment-workflow/
 ├── index.html                 # Core website entry point ("Hello, GitHub Actions!")
 └── README.md                  # Comprehensive project blueprint and documentation
 
-Link: https://amal-krishna123.github.io/github-page-deployment/
